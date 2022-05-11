@@ -1,13 +1,13 @@
 const { Schema, model } = require("mongoose");
 
 const spiritualSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
   book: {
     type: String,
     enum: ["bible", "quran", "torah"],
+  },
+  verses: {
+    type: String,
+    required: true,
   },
   takeaway: {
     type: String,
