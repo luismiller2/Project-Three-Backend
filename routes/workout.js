@@ -49,6 +49,48 @@ router.post("/create", (req, res) => {
     });
 });
 
+router.get("/:id/edit", (req, res, next) => {
+  // Iteration #4: Update the drone
+
+  Workout.findById(req.params.id)
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (error) {
+      console.log("Something went wrong", error.message);
+    });
+
+  // ... your code here
+});
+
+router.post("/:id/edit", (req, res, next) => {
+  // Iteration #4: Update the drone
+  Workout.findByIdAndUpdate(req.params.id, {
+    name: req.body.name,
+    type: req.body.type,
+    duration: req.body.duration,
+    location: req.body.location,
+  }, {new:true})
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (err) {
+      console.log("Something went wrong", err.message);
+    });
+});
+
+router.post("/:id/delete", (req, res, next) => {
+  // Iteration #5: Delete the drone
+  Workout.findByIdAndRemove(req.params.id)
+    .then(function (results) {
+      res.redirect(results);
+    })
+    .catch(function (err) {
+      console.log("Something went wrong", err.message);
+    });
+});
+
+
 module.exports = router;
 
 // axios

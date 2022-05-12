@@ -112,4 +112,43 @@ router.get('/login-test', isLoggedIn, (req, res)=>{
   res.json({message: "You are logged in"})
 })
 
+// router.get("/edit", (req, res, next) => {
+//   // Iteration #4: Update the drone
+
+//   User.findById(req.params._id)
+//     .then(function (foundUser) {
+//       res.render("users/update-form", { user: foundUser });
+//     })
+//     .catch(function (error) {
+//       console.log("Something went wrong", error.message);
+//     });
+
+//   // ... your code here
+// });
+
+router.post("/edit", isLoggedIn, (req, res, next) => {
+  // Iteration #4: Update the drone
+  User.findByIdAndUpdate(req.user._id, {
+    username: req.body.username,
+    // password: req.body.password,
+  })
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (err) {
+      console.log("Something went wrong", err.message);
+    });
+});
+
+router.post("/delete", isLoggedIn, (req, res, next) => {
+  // Iteration #5: Delete the drone
+  User.findByIdAndRemove(req.user._id)
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (err) {
+      console.log("Something went wrong", err.message);
+    });
+});
+
 module.exports = router;
