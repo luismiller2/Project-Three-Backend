@@ -4,22 +4,13 @@ var router = express.Router();
 const axios = require("axios");
 require('dotenv/config');
 
-/* GET home page. */
-// router.get("/", function (req, res, next) {
-//   axios
-//         .get(`https://api.scripture.api.bible/v1/swagger.json`)
-//         .then((results) => {
-//             console.log(results)
-//             res.json(results.data)})
-        
-//         .catch((err) => console.log(err.message))
-// });
-
 router.get("/", function (req, res, next) {
+  console.log('params', req.params)
+  console.log('query', req.query)
   const options = {
     method: 'GET',
     url: 'https://ajith-holy-bible.p.rapidapi.com/GetChapter',
-    params: {Book: '', chapter: '', VerseFrom: '', VerseTo: ''},
+    params: {Book: req.query.book, chapter: req.query.chapter, VerseFrom: req.query.verseFrom, VerseTo: req.query.verseTo},
     headers: {
       'X-RapidAPI-Host': 'ajith-holy-bible.p.rapidapi.com',
       'X-RapidAPI-Key': process.env.BIBLE_API_KEY
@@ -69,8 +60,6 @@ router.post("/create", (req, res) => {
 });
 
 router.get("/:id/edit", (req, res, next) => {
-  // Iteration #4: Update the drone
-
   Spiritual.findById(req.params.id)
     .then(function (results) {
       res.json(results);
@@ -79,13 +68,13 @@ router.get("/:id/edit", (req, res, next) => {
       console.log("Something went wrong", error.message);
     });
 
-  // ... your code here
 });
 
 router.post("/:id/edit", (req, res, next) => {
-  // Iteration #4: Update the drone
   Spiritual.findByIdAndUpdate(req.params.id, {
+    testament: req.body.testament,
     book: req.body.book,
+    chapter: req.body.chapter,
     verses: req.body.verses,
     takeaway: req.body.takeaway,
   }, {new:true})
@@ -98,7 +87,6 @@ router.post("/:id/edit", (req, res, next) => {
 });
 
 router.post("/:id/delete", (req, res, next) => {
-  // Iteration #5: Delete the drone
   Spiritual.findByIdAndRemove(req.params.id)
     .then(function (results) {
       res.redirect(results);

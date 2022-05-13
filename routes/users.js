@@ -34,6 +34,7 @@ router.post('/signup', function(req, res, next) {
       // 4. Create the account
       User.create({
         username: req.body.username,
+        email: req.body.email,
         password: hashedPassword
       })
       .then((createdUser) =>{
@@ -112,24 +113,24 @@ router.get('/login-test', isLoggedIn, (req, res)=>{
   res.json({message: "You are logged in"})
 })
 
-// router.get("/edit", (req, res, next) => {
-//   // Iteration #4: Update the drone
 
-//   User.findById(req.params._id)
-//     .then(function (foundUser) {
-//       res.render("users/update-form", { user: foundUser });
-//     })
-//     .catch(function (error) {
-//       console.log("Something went wrong", error.message);
-//     });
+router.get("/:id/edit", (req, res, next) => {
+  User.findById(req.params.id)
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (error) {
+      console.log("Something went wrong", error.message);
+    });
 
-//   // ... your code here
-// });
+});
+
 
 router.post("/edit", isLoggedIn, (req, res, next) => {
   // Iteration #4: Update the drone
   User.findByIdAndUpdate(req.user._id, {
     username: req.body.username,
+    email: req.body.email,
     // password: req.body.password,
   })
     .then(function (results) {

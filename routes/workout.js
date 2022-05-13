@@ -50,8 +50,6 @@ router.post("/create", (req, res) => {
 });
 
 router.get("/:id/edit", (req, res, next) => {
-  // Iteration #4: Update the drone
-
   Workout.findById(req.params.id)
     .then(function (results) {
       res.json(results);
@@ -60,11 +58,9 @@ router.get("/:id/edit", (req, res, next) => {
       console.log("Something went wrong", error.message);
     });
 
-  // ... your code here
 });
 
 router.post("/:id/edit", (req, res, next) => {
-  // Iteration #4: Update the drone
   Workout.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     type: req.body.type,
@@ -80,7 +76,6 @@ router.post("/:id/edit", (req, res, next) => {
 });
 
 router.post("/:id/delete", (req, res, next) => {
-  // Iteration #5: Delete the drone
   Workout.findByIdAndRemove(req.params.id)
     .then(function (results) {
       res.redirect(results);
@@ -92,18 +87,3 @@ router.post("/:id/delete", (req, res, next) => {
 
 
 module.exports = router;
-
-// axios
-//         .get(`https://wger.de/api/v2/exercise/?format=json&language=2`)
-//         .then((results) => {
-//             console.log(results)
-//             setWorkouts(results.data)})
-        
-//         .catch((err) => console.log(err.message))
-
-//     axios
-//     .get("https://wger.de/api/v2/exercise/?format=json&language=2")
-//     .then((results) => {
-//       setWorkouts(results.data[Math.floor(Math.random() * results.data.length)])
-//     })
-//     .catch((err) => console.log(err));

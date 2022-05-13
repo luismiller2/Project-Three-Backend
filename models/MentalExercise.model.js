@@ -1,17 +1,21 @@
 const { Schema, model } = require("mongoose");
 
 const mentalExerciseSchema = new Schema({
-  challenge: {
-    type: String,
+  amount: {
+    type: Number,
     required: true,
   },
-  languages: {
-    type: String,
-    enum: ["javascript", "react", "c++", "python"],
-  },
-  rank: {
-    type: String,
+  category: {
+    type: Number,
     required: true,
+  },
+  difficulty: {
+    type: String,
+    enum: ["easy", "medium", "hard"],
+  },
+  type: {
+    type: String,
+    enum: ["multiple choice", "true/false"],
   },
 });
 
