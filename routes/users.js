@@ -15,8 +15,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/signup', function(req, res, next) {
   // 1. Make sure fields are filled out
-  if(!req.body.username || !req.body.password){
-    return res.json({message: "Please fill out all fields"})
+  if(!req.body.username || !req.body.email || !req.body.password) {
+    return res.status(400).json({message: "Please fill out all fields"})
   }
   // 2. Make sure username isn't taken
   User.findOne({username: req.body.username})
@@ -53,17 +53,13 @@ router.post('/signup', function(req, res, next) {
 
       })
       .catch((err)=>{
-        res.json(err.message)
+        res.status(400).json(err.message)
       })
 
 
 
     }
   })
-  .catch((err)=>{
-    res.json(err.message)
-  })
-  // 4.  
 });
 
 router.post('/login', function(req, res, next) {
