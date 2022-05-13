@@ -4,13 +4,13 @@ var router = express.Router();
 const axios = require("axios");
 require('dotenv/config');
 
-router.get("/", function (req, res, next) {
+router.post("/", function (req, res, next) {
   console.log('params', req.params)
   console.log('query', req.query)
   const options = {
     method: 'GET',
     url: 'https://ajith-holy-bible.p.rapidapi.com/GetChapter',
-    params: {Book: req.query.book, chapter: req.query.chapter, VerseFrom: req.query.verseFrom, VerseTo: req.query.verseTo},
+    params: {Book: req.body.book, chapter: req.body.chapter, VerseFrom: req.body.verseFrom, VerseTo: req.body.verseTo},
     headers: {
       'X-RapidAPI-Host': 'ajith-holy-bible.p.rapidapi.com',
       'X-RapidAPI-Key': process.env.BIBLE_API_KEY
