@@ -6,7 +6,7 @@ const axios = require("axios");
 /* GET home page. */
 router.get("/", function (req, res, next) {
   axios
-        .get(`https://opentdb.com/api.php?amount=5&category=18&difficulty=easy&type=multiple`)
+        .get(`https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple`)
         .then((results) => {
             console.log(results)
             res.json(results.data)})

@@ -6,7 +6,17 @@ const axios = require("axios");
 /* GET home page. */
 router.get("/", function (req, res, next) {
   axios
-        .get(`https://wger.de/api/v2/exercise/?format=json&language=2`)
+        .get(`https://wger.de/api/v2/exercise/?format=json&language=2&limit=250`)
+        .then((results) => {
+            console.log(results)
+            res.json(results.data)})
+        
+        .catch((err) => console.log(err.message))
+});
+
+router.get("/singleWorkout/:id", function (req, res, next) {
+  axios
+        .get(`https://wger.de/api/v2/exerciseinfo/${req.params.id}`)
         .then((results) => {
             console.log(results)
             res.json(results.data)})
