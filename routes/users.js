@@ -63,9 +63,10 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
+  console.log(req.body)
   // 1. Make sure fields are valid
   if(!req.body.username || !req.body.password){
-    return res.json({message: "Please fill out all fields"})
+    return res.status(400).json({message: "Please fill out all fields"})
   }
   // 2. Check username
   User.findOne({username: req.body.username})
@@ -73,7 +74,7 @@ router.post('/login', function(req, res, next) {
 
     // 2.1 Make sure User exists
     if(!foundUser){
-      return res.json({message: "Username or password incorrect!"})
+      return res.status(401).json("no user")
     }
 
     // 2.2 Make sure passwords math
@@ -90,7 +91,7 @@ router.post('/login', function(req, res, next) {
 
         res.json({token: token});
     } else {
-      return res.json({message: "Username or password incorrect!"})
+      return res.status(402).json("Username or password incorrect!")
     }
 
 
@@ -140,6 +141,28 @@ router.post("/edit", isLoggedIn, (req, res, next) => {
 router.post("/delete", isLoggedIn, (req, res, next) => {
   // Iteration #5: Delete the drone
   User.findByIdAndRemove(req.user._id)
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (err) {
+      console.log("Something went wrong", err.message);
+    });
+});
+
+router.get("/all-users", (req, res, next) => {
+
+  User.find()
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (err) {
+      console.log("Something went wrong", err.message);
+    });
+});
+
+router.get("/user-data", isLoggedIn, (req, res, next) => {
+
+  User.findById(req.user._id)
     .then(function (results) {
       res.json(results);
     })
