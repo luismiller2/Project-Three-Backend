@@ -2,8 +2,8 @@ var express = require("express");
 const Workout = require("../models/Workout.model");
 var router = express.Router();
 const axios = require("axios");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
-/* GET home page. */
 router.get("/", function (req, res, next) {
   axios
         .get(`https://wger.de/api/v2/exercise/?format=json&language=2&limit=250`)
@@ -43,13 +43,24 @@ router.get("/all-workouts", (req, res) => {
     });
 });
 
+router.get("/my-workouts", isLoggedIn, (req, res, next) => {
+  Workout.find({creatorId: req.user._id})
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (error) {
+      console.log("Something went wrong", error.message);
+    });
+
+});
+
 router.post("/create", (req, res) => {
     console.log(req.body);
   Workout.create({
     name: req.body.name,
-    type: req.body.type,
-    duration: req.body.duration,
-    location: req.body.location,
+    category: req.body.category,
+    description: req.body.description,
+    creatorId: req.user._id,
   })
     .then((createdWorkout) => {
       res.json(createdWorkout);
@@ -73,9 +84,9 @@ router.get("/:id/edit", (req, res, next) => {
 router.post("/:id/edit", (req, res, next) => {
   Workout.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
-    type: req.body.type,
-    duration: req.body.duration,
-    location: req.body.location,
+    category: req.body.category,
+    description: req.body.description,
+    creatorId: req.user._id,
   }, {new:true})
     .then(function (results) {
       res.json(results);

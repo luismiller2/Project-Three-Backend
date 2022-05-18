@@ -16,7 +16,11 @@ const spiritualSchema = new Schema({
     type: Number,
     required: true,
   },
-  verses: {
+  verseFrom: {
+    type: String,
+    required: true,
+  },
+  verseTo: {
     type: String,
     required: true,
   },
@@ -24,6 +28,10 @@ const spiritualSchema = new Schema({
     type: String,
     required: true,
   },
+  creatorId: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 const Spiritual = model("Spiritual", spiritualSchema);

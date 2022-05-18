@@ -5,17 +5,17 @@ const workoutSchema = new Schema({
     type: String,
     required: true,
   },
-  type: {
+  category: {
     type: String,
-    enum: ["cardio", "strength", "mobility"],
   },
-  duration: {
-    type: Number,
-  },
-  location: {
+  description: {
     type: String,
     required: true,
   },
+  creatorId: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 const Workout = model("Workout", workoutSchema);

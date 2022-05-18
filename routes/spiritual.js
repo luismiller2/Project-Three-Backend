@@ -2,6 +2,7 @@ var express = require("express");
 const Spiritual = require("../models/Spiritual.model");
 var router = express.Router();
 const axios = require("axios");
+const isLoggedIn = require("../middleware/isLoggedIn");
 require('dotenv/config');
 
 router.post("/", function (req, res, next) {
@@ -42,14 +43,27 @@ router.get("/all-spiritual", (req, res) => {
     });
 });
 
-router.post("/create", (req, res) => {
+router.get("/my-spirituals", isLoggedIn, (req, res, next) => {
+  Spiritual.find({creatorId: req.user._id})
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (error) {
+      console.log("Something went wrong", error.message);
+    });
+
+});
+
+router.post("/create", isLoggedIn, (req, res) => {
     console.log(req.body);
   Spiritual.create({
     testament: req.body.testament,
     book: req.body.book,
     chapter: req.body.chapter,
-    verses: req.body.verses,
+    verseFrom: req.body.verseFrom,
+    verseTo: req.body.verseTo,
     takeaway: req.body.takeaway,
+    creatorId: req.user._id
   })
     .then((createdSpiritual) => {
       res.json(createdSpiritual);
