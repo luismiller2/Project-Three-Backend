@@ -124,11 +124,9 @@ router.get("/:id/edit", (req, res, next) => {
 
 
 router.post("/edit", isLoggedIn, (req, res, next) => {
-  // Iteration #4: Update the drone
   User.findByIdAndUpdate(req.user._id, {
     username: req.body.username,
     email: req.body.email,
-    // password: req.body.password,
   })
     .then(function (results) {
       res.json(results);
@@ -139,7 +137,6 @@ router.post("/edit", isLoggedIn, (req, res, next) => {
 });
 
 router.post("/delete", isLoggedIn, (req, res, next) => {
-  // Iteration #5: Delete the drone
   User.findByIdAndRemove(req.user._id)
     .then(function (results) {
       res.json(results);

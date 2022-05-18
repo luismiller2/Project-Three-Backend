@@ -54,12 +54,13 @@ router.get("/my-workouts", isLoggedIn, (req, res, next) => {
 
 });
 
-router.post("/create", (req, res) => {
+router.post("/create", isLoggedIn, (req, res) => {
     console.log(req.body);
   Workout.create({
     name: req.body.name,
     category: req.body.category,
     description: req.body.description,
+    sets: req.body.sets,
     creatorId: req.user._id,
   })
     .then((createdWorkout) => {
@@ -81,11 +82,12 @@ router.get("/:id/edit", (req, res, next) => {
 
 });
 
-router.post("/:id/edit", (req, res, next) => {
+router.post("/:id/edit", isLoggedIn, (req, res, next) => {
   Workout.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     category: req.body.category,
     description: req.body.description,
+    sets: req.body.sets,
     creatorId: req.user._id,
   }, {new:true})
     .then(function (results) {
@@ -96,10 +98,10 @@ router.post("/:id/edit", (req, res, next) => {
     });
 });
 
-router.post("/:id/delete", (req, res, next) => {
+router.post("/:id/delete", isLoggedIn, (req, res, next) => {
   Workout.findByIdAndRemove(req.params.id)
     .then(function (results) {
-      res.redirect(results);
+      res.json(results);
     })
     .catch(function (err) {
       console.log("Something went wrong", err.message);

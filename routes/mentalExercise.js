@@ -69,7 +69,7 @@ router.post("/:id/edit", (req, res, next) => {
 router.post("/:id/delete", (req, res, next) => {
   MentalExercise.findByIdAndRemove(req.params.id)
     .then(function (results) {
-      res.redirect(results);
+      res.json(results);
     })
     .catch(function (err) {
       console.log("Something went wrong", err.message);

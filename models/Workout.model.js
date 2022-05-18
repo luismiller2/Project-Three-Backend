@@ -12,6 +12,10 @@ const workoutSchema = new Schema({
     type: String,
     required: true,
   },
+  sets: {
+    type: String,
+    required: true,
+  },
   creatorId: {
     type: Schema.Types.ObjectId,
     ref: "User"

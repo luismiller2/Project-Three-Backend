@@ -84,7 +84,7 @@ router.get("/:id/edit", (req, res, next) => {
 
 });
 
-router.post("/:id/edit", (req, res, next) => {
+router.post("/:id/edit", isLoggedIn, (req, res, next) => {
   Spiritual.findByIdAndUpdate(req.params.id, {
     testament: req.body.testament,
     book: req.body.book,
@@ -100,10 +100,10 @@ router.post("/:id/edit", (req, res, next) => {
     });
 });
 
-router.post("/:id/delete", (req, res, next) => {
+router.post("/:id/delete", isLoggedIn, (req, res, next) => {
   Spiritual.findByIdAndRemove(req.params.id)
     .then(function (results) {
-      res.redirect(results);
+      res.json(results);
     })
     .catch(function (err) {
       console.log("Something went wrong", err.message);
