@@ -27,8 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //CORS must come before the routes
 app.use(cors({
-  // origin: [process.env.FRONTEND_URL]
-  origin: ["http://localhost:3000"]
+  origin: [process.env.FRONTEND_URL]
+  // origin: ["http://localhost:3000"]
 }));
 
 app.use('/', indexRouter);
